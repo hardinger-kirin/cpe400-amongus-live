@@ -3,10 +3,12 @@
 import pyshark
 import argparse
 
+
 def sniff(interface):
     capture = pyshark.LiveCapture(interface=interface, display_filter="amongus.packet_format eq \"Reliable\"")
     capture.sniff(timeout=1)
     return capture
+
 
 if __name__ == "__main__":
     # https://stackoverflow.com/questions/4033723/how-do-i-access-command-line-arguments
@@ -17,7 +19,7 @@ if __name__ == "__main__":
     players_name = {}
     players_color = {}
 
-    while(1):
+    while True:
         capture = sniff(args.interface)
         for packet in capture:
             if hasattr(packet.amongus, 'game_data'):
@@ -31,7 +33,7 @@ if __name__ == "__main__":
                                 players_name[data[field_count - 3].showname_value] = field.showname_value
 
                         if 'SetColor' in str(field) and field_count != len(data) - 1:
-                            players_color[data[field_count - 1].showname_value] = data[field_count + 1]
+                            players_color[data[field_count - 1].showname_value] = data[field_count + 1].showname_value
 
                     def get_kills():
                         # provide murder data
@@ -61,5 +63,8 @@ if __name__ == "__main__":
                                     print(f'An unknown impostor of ID {murderer_id} murdered {players_color[victim_id]}')
                                 else:
                                     print(f'An unknown impostor of ID {murderer_id} murdered an unknown player of ID {victim_id}')
+
+                    get_names_and_colors()
+                    get_kills()
 
                     field_count += 1

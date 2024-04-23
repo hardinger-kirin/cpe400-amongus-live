@@ -199,3 +199,14 @@ if __name__ == "__main__":
                 for field in data:
                     if 'Game Code:' in str(field):
                         print(f'Joined game. Code: {data[field_count + 4].showname_value}')
+                        # reset flags
+                        players_name = {}
+                        players_color = {}
+                        players_id = {}
+                        players_tasks = {}
+
+                        current_map = -1
+
+                        got_task_list = False
+                        got_map = False
+                        printed_tasks = False

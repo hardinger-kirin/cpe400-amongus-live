@@ -56,28 +56,32 @@ if __name__ == "__main__":
                             murderer_id = data[field_count - 1].showname_value
                             victim_id = data[field_count + 1].showname_value
 
+                            print('\x1b[5;30;43m', end='')
+
                             # prioritize displaying name over color
                             if murderer_id in players_name:
                                 if victim_id in players_name:
-                                    print(f'{players_name[murderer_id]} murdered {players_name[victim_id]}')
+                                    print(f'{players_name[murderer_id]} murdered {players_name[victim_id]}', end='')
                                 elif victim_id in players_color:
-                                    print(f'{players_name[murderer_id]} murdered {players_color[victim_id]}')
+                                    print(f'{players_name[murderer_id]} murdered {players_color[victim_id]}', end='')
                                 else:
-                                    print(f'{players_name[murderer_id]} murdered an unknown player of ID {victim_id}')
+                                    print(f'{players_name[murderer_id]} murdered an unknown player of ID {victim_id}', end='')
                             elif murderer_id in players_color:
                                 if victim_id in players_name:
-                                    print(f'{players_color[murderer_id]} murdered {players_name[victim_id]}')
+                                    print(f'{players_color[murderer_id]} murdered {players_name[victim_id]}', end='')
                                 elif victim_id in players_color:
-                                    print(f'{players_color[murderer_id]} murdered {players_color[victim_id]}')
+                                    print(f'{players_color[murderer_id]} murdered {players_color[victim_id]}', end='')
                                 else:
-                                    print(f'{players_color[murderer_id]} murdered an unknown player of ID {victim_id}')
+                                    print(f'{players_color[murderer_id]} murdered an unknown player of ID {victim_id}', end='')
                             else:
                                 if victim_id in players_name:
-                                    print(f'An unknown impostor of ID {murderer_id} murdered {players_name[victim_id]}')
+                                    print(f'An unknown impostor of ID {murderer_id} murdered {players_name[victim_id]}', end='')
                                 elif victim_id in players_color:
-                                    print(f'An unknown impostor of ID {murderer_id} murdered {players_color[victim_id]}')
+                                    print(f'An unknown impostor of ID {murderer_id} murdered {players_color[victim_id]}', end='')
                                 else:
-                                    print(f'An unknown impostor of ID {murderer_id} murdered an unknown player of ID {victim_id}')
+                                    print(f'An unknown impostor of ID {murderer_id} murdered an unknown player of ID {victim_id}', end='')
+
+                            print('\x1b[0m')
 
                     def get_task_list():
                         if 'SetTasks' in str(field):

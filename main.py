@@ -410,8 +410,8 @@ if __name__ == "__main__":
                             print('')
                         for id in list(players_name):
                             if id in players_id.values():
-                                if players_name[id] not in players_tasks.keys() and str("Unknown, ID: " + list(players_id.keys())[list(players_id.values()).index('155')]) not in players_tasks.keys():
-                                    print(f'\x1b[5;30;43m{players_name[id]} has no task information and may be the imposter\x1b[0m')
+                                if players_name[id] not in players_tasks.keys() and str("Unknown, ID: " + list(players_id.keys())[list(players_id.values()).index(id)]) not in players_tasks.keys():
+                                    print(f'Could not find {players_name[id]}\'s task information')
                         print('')
                         printed_tasks = True
 

@@ -97,7 +97,8 @@ if __name__ == "__main__":
 
                                 # prioritize displaying name over color
                                 if player_id in players_id:
-                                    players_tasks[players_name[players_id[player_id]]] = player_tasks
+                                    if players_id[player_id] in list(players_name.keys()):
+                                        players_tasks[players_name[players_id[player_id]]] = player_tasks
                                 elif player_id in players_color:
                                     players_tasks[players_color[player_id]] = player_tasks
                                 else:
@@ -415,6 +416,105 @@ if __name__ == "__main__":
                         print('')
                         printed_tasks = True
 
+                    def get_vents():
+                        if 'EnterVent' in str(field) or 'ExitVent' in str(field):
+                            player_id = data[field_count - 1].showname_value
+                            vent_id = int(data[field_count + 1].showname_value)
+
+                            if player_id in players_name.keys():
+                                print(f'{players_name[player_id]} ', end='')
+                            else:
+                                print(f'An unknown player of ID {player_id} ', end='')
+
+                            if 'EnterVent' in str(field):
+                                print('entered a vent in ', end='')
+                            elif 'ExitVent' in str(field):
+                                print('exited a vent in ', end='')
+
+                            if current_map == 0:
+                                if vent_id == 0:
+                                    print('Admin')
+                                elif vent_id == 1:
+                                    print('the right hallway')
+                                elif vent_id == 2:
+                                    print('the Cafeteria')
+                                elif vent_id == 3:
+                                    print('Electrical')
+                                elif vent_id == 4:
+                                    print('the Upper Engine')
+                                elif vent_id == 5:
+                                    print('Security')
+                                elif vent_id == 6:
+                                    print('Medbay')
+                                elif vent_id == 7:
+                                    print('Weapons')
+                                elif vent_id == 8:
+                                    print('Lower Reactor')
+                                elif vent_id == 9:
+                                    print('the Lower Engine')
+                                elif vent_id == 10:
+                                    print('Shields')
+                                elif vent_id == 11:
+                                    print('Upper Reactor')
+                                elif vent_id == 12:
+                                    print('Upper Navigation')
+                                elif vent_id == 13:
+                                    print('Lower Navigation')
+                                else:
+                                    print('[[Unknown]]')
+                            elif current_map == 1:
+                                if vent_id == 1:
+                                    print('the Balcony')
+                                elif vent_id == 2:
+                                    print('the Cafeteria')
+                                elif vent_id == 3:
+                                    print('the Reactor')
+                                elif vent_id == 4:
+                                    print('the Laboratory')
+                                elif vent_id == 5:
+                                    print('the Office')
+                                elif vent_id == 6:
+                                    print('Admin')
+                                elif vent_id == 7:
+                                    print('the Greenhouse')
+                                elif vent_id == 8:
+                                    print('Medbay')
+                                elif vent_id == 9:
+                                    print('Decontamination')
+                                elif vent_id == 10:
+                                    print('the Locker Room')
+                                elif vent_id == 11:
+                                    print('the Launchpad')
+                                else:
+                                    print('[[Unknown]]')
+                            elif current_map == 2:
+                                if vent_id == 0:
+                                    print('Security')
+                                elif vent_id == 1:
+                                    print('Electrical')
+                                elif vent_id == 2:
+                                    print('O2')
+                                elif vent_id == 3:
+                                    print('Communications')
+                                elif vent_id == 4:
+                                    print('the Office')
+                                elif vent_id == 5:
+                                    print('Admin')
+                                elif vent_id == 6:
+                                    print('the Laboratory')
+                                elif vent_id == 7:
+                                    print('the Lava Pool')
+                                elif vent_id == 8:
+                                    print('Storage')
+                                elif vent_id == 9:
+                                    print('the right Seismic Stabilizer')
+                                elif vent_id == 10:
+                                    print('the left Seismic Stabilizer')
+                                elif vent_id == 11:
+                                    print('Admin')
+                                else:
+                                    print('[[Unknown]]')
+
                     if not game_started:
                         get_names_and_colors()
                         get_ids()
@@ -426,6 +526,7 @@ if __name__ == "__main__":
                         if got_task_list and got_map and not printed_tasks:
                             print_tasks()
                         get_kills()
+                        get_vents()
 
                     field_count += 1
             elif int(packet.amongus.payload_type) == 1:
@@ -446,3 +547,5 @@ if __name__ == "__main__":
                         got_map = False
                         printed_tasks = False
                         game_started = False
+
+

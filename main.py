@@ -26,6 +26,7 @@ if __name__ == "__main__":
     got_task_list = False
     got_map = False
     printed_tasks = False
+    game_started = False
 
     while True:
         capture = sniff(args.interface)
@@ -91,25 +92,27 @@ if __name__ == "__main__":
                                 if 'Part Length' in str(data[i].showname_key):
                                     continue
                                 player_id = data[i].showname_value
-                                player_num_tasks = data[i + 1].showname_value
+                                # player_num_tasks = data[i + 1].showname_value
                                 player_tasks = data[i + 2].showname_value
 
                                 # prioritize displaying name over color
                                 if player_id in players_id:
-                                    players_tasks[players_name[players_id[player_id]]] = data[i + 2].showname_value
+                                    players_tasks[players_name[players_id[player_id]]] = player_tasks
                                 elif player_id in players_color:
-                                    players_tasks[players_color[player_id]] = data[i + 2].showname_value
+                                    players_tasks[players_color[player_id]] = player_tasks
                                 else:
-                                    players_tasks[str("Unknown, ID: " + player_id)] = data[i + 2].showname_value
+                                    players_tasks[str("Unknown, ID: " + player_id)] = player_tasks
 
                             got_task_list = True
 
                     def get_map():
                         if 'Spawn Id' in str(field) and 'ShipStatus' in str(field.showname_value):
                             global got_map
+                            global game_started
                             global current_map
                             current_map = int(str(field.showname_value).replace(" (ShipStatus)", ''))
                             got_map = True
+                            game_started = True
 
                     def print_tasks():
                         global printed_tasks
@@ -119,7 +122,7 @@ if __name__ == "__main__":
                             tasks = players_tasks[key]
                             chunks, chunk_size = len(tasks), 2
                             tasks = [tasks[i:i+chunk_size] for i in range(0, chunks, chunk_size)]
-                            print(f'Player {key} has tasks:',)
+                            print(f'Player {key} has tasks:')
                             if current_map == 0:
                                 for task in tasks:
                                     print('\t', end='')
@@ -405,17 +408,24 @@ if __name__ == "__main__":
                                     else:
                                         print(f'[[Unknown Task]]')
                             print('')
+                        for id in list(players_name):
+                            if id in players_id.values():
+                                if players_name[id] not in players_tasks.keys() and str("Unknown, ID: " + list(players_id.keys())[list(players_id.values()).index('155')]) not in players_tasks.keys():
+                                    print(f'\x1b[5;30;43m{players_name[id]} has no task information and may be the imposter\x1b[0m')
+                        print('')
                         printed_tasks = True
 
-                    get_names_and_colors()
-                    get_ids()
-                    if not got_task_list:
-                        get_task_list()
-                    if not got_map:
-                        get_map()
-                    if got_task_list and got_map and not printed_tasks:
-                        print_tasks()
-                    get_kills()
+                    if not game_started:
+                        get_names_and_colors()
+                        get_ids()
+                        if not got_map:
+                            get_map()
+                    else:
+                        if not got_task_list:
+                            get_task_list()
+                        if got_task_list and got_map and not printed_tasks:
+                            print_tasks()
+                        get_kills()
 
                     field_count += 1
             elif int(packet.amongus.payload_type) == 1:
@@ -435,3 +445,4 @@ if __name__ == "__main__":
                         got_task_list = False
                         got_map = False
                         printed_tasks = False
+                        game_started = False
